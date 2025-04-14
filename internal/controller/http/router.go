@@ -11,6 +11,18 @@ import (
 	"log/slog"
 )
 
+//	@Title			To-do list API
+//	@Version		1.0
+//	@Description	To-do list API allows to perform operations with the list of tasks.
+
+//	@Host		localhost:8080
+//	@BasePath	/
+//	@Schemes	http
+//	@Accept		json
+//	@Produce	json
+
+// @Tag.name			tasks
+// @Tag.description	operations with the list of tasks
 func NewRouter(log *slog.Logger, cfg *config.Server, ctrl *controller.Controllers) *fiber.App {
 	app := fiber.New(fiber.Config{
 		ReadTimeout:  cfg.ReadTimeout,

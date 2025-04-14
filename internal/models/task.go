@@ -3,10 +3,10 @@ package models
 import "time"
 
 type Task struct {
-	ID          int       `json:"id,omitempty"`
-	Title       string    `json:"title" binding:"required"`
-	Description string    `json:"description,omitempty"`
-	Status      string    `json:"status,omitempty"`
-	CreatedAt   time.Time `json:"created_at,omitempty"`
-	UpdatedAt   time.Time `json:"updated_at,omitempty"`
+	ID          int       `db:"id" json:"id"`
+	Title       string    `db:"title" json:"title"`
+	Description string    `db:"description" json:"description,omitempty"`
+	Status      string    `db:"status" json:"status,omitempty"`
+	CreatedAt   time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt   time.Time `db:"updated_at" json:"updated_at,omitempty"`
 }
