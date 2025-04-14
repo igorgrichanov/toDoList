@@ -13,9 +13,9 @@ func NewLoggerMiddleware(log *slog.Logger) fiber.Handler {
 	)
 	log.Info("logger middleware enabled")
 	return func(c *fiber.Ctx) error {
-		requestID, ok := c.Context().Value(request_id.RequestIDKey).(string)
+		requestID, ok := c.UserContext().Value(request_id.RequestIDKey).(string)
 		if !ok {
-			log.Error("missing request id")
+			log.Error("missing request id", slog.String("request_id", requestID))
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
 		entry := log.With(

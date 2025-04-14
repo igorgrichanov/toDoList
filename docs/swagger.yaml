@@ -1,0 +1,175 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  models.Task:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  tasks.CreateRequest:
+    properties:
+      description:
+        type: string
+      status:
+        enum:
+        - new
+        - in_progress
+        - done
+        type: string
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  tasks.UpdateRequest:
+    properties:
+      description:
+        type: string
+      status:
+        enum:
+        - new
+        - in_progress
+        - done
+        type: string
+      title:
+        type: string
+    required:
+    - title
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: To-do list API allows to perform operations with the list of tasks.
+  title: To-do list API
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Task'
+            type: array
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get list of existing tasks
+      tags:
+      - tasks
+    post:
+      parameters:
+      - description: Specify task title. Description and status are optional
+        in: body
+        name: Task
+        required: true
+        schema:
+          $ref: '#/definitions/tasks.CreateRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: invalid request body
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Create a new task
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: invalid task ID
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: task not found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete task
+      tags:
+      - tasks
+    put:
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Specify fields to update
+        in: body
+        name: Task
+        required: true
+        schema:
+          $ref: '#/definitions/tasks.UpdateRequest'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: invalid request body or task ID
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: task not found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "409":
+          description: task has already been updated, try again
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update task
+      tags:
+      - tasks
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
+tags:
+- description: operations with the list of tasks
+  name: tasks

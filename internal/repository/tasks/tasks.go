@@ -51,6 +51,8 @@ func (t *Tasks) Create(ctx context.Context, task *models.Task) (*models.Task, er
 		return nil, fmt.Errorf("%w: %s", repository.ErrExecutingSql, err)
 	}
 	task.ID = insertedID
+	task.CreatedAt = createdAt
+	task.UpdatedAt = updatedAt
 	return task, nil
 }
 
