@@ -10,6 +10,7 @@ import (
 type ctxKeyRequestID int
 
 // RequestIDKey is the key that holds the unique request ID in a request context.
+// TODO: use non-exported variable and FromContext() to retrieve value
 const RequestIDKey ctxKeyRequestID = 0
 
 // RequestIDHeader is the name of the HTTP Header which contains the request id.
